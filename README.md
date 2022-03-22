@@ -1,4 +1,4 @@
-#ACM Project 1
+# ACM Project 1
 
 This is the repository for the ACM Project -- a programming project worked on the ACM UMN student chapter as a club.
 
