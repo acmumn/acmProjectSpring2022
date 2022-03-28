@@ -1,0 +1,7 @@
+We will use the OpenWeatherMap API (https://openweathermap.org/api)
+
+Docs: https://openweathermap.org/current
+
+Icons and weather conditions: https://openweathermap.org/weather-conditions
+
+Convert Kelvin to Fahrenheit: https://www.thoughtco.com/convert-kelvin-to-fahrenheit-609234
