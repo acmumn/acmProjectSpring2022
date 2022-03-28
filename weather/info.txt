@@ -5,3 +5,5 @@ Docs: https://openweathermap.org/current
 Icons and weather conditions: https://openweathermap.org/weather-conditions
 
 Convert Kelvin to Fahrenheit: https://www.thoughtco.com/convert-kelvin-to-fahrenheit-609234
+
+Arduino simulator: https://wokwi.com/
