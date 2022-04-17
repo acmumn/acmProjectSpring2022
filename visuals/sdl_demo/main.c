@@ -3,8 +3,15 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 600
+// 2^20 = 1048576
+#define ITOIF(x) ((x) * 1048576)
+#define IFTOI(x) ((x) / 1048576)
+
+/* #define ITOIF(x) ((x) * 4194304) */
+/* #define IFTOI(x) ((x) / 4194304) */
+
+#define WINDOW_WIDTH 1200
+#define WINDOW_HEIGHT 825
 
 int main(int argc, char **argv) {
 	SDL_Window *window;
@@ -19,38 +26,45 @@ int main(int argc, char **argv) {
 	// black lines for attractor
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
-	double oldx, oldy, oldz;
+	int oldx, oldy, oldz;
 
-	double x = 3;
-	double y = 3;
-	double z = 3;
+	int x = ITOIF(3);
+	int y = ITOIF(3);
+	int z = ITOIF(3);
 
-	double sigma = 10;
-	double beta = 8/3;
-	double rho = 28;
-	double dt = 0.01666;
+	const int sigma = 10;
+	const int betaN = 8;
+	const int betaD = 3;
+	const int rho = 28;
+	const int dt = 60; // 1/60
+	const int scale = 10;
 
-	// deviate values a little bit
-	srand((unsigned int) time(NULL));
-
-	double scale = 10;
+	int oldWinX, oldWinY, winX, winY;
+	oldWinX = (WINDOW_WIDTH/2) + IFTOI(x*scale);
+	oldWinY = (WINDOW_HEIGHT/2) + IFTOI(y*scale);
 
 	while (1) {
 
-		double dx = sigma * (y - x);
-		double dy = x * (rho - z) - y;
-		double dz = x*y - beta*z;
+		int dx = sigma * (y - x);
+		int dy = x * IFTOI(ITOIF(rho) - z) - y;
+		int dz = x*IFTOI(y) - betaN*z / betaD;
 
 		oldx = x;
 		oldy = y;
 		oldz = z;
 
-		x += dx*dt;
-		y += dy*dt;
-		z += dz*dt;
+		x += dx/dt;
+		y += dy/dt;
+		z += dz/dt;
 
-		SDL_RenderDrawLine(renderer, (WINDOW_WIDTH/2)+(oldx*scale), (WINDOW_HEIGHT/2)+(oldy*scale), (WINDOW_WIDTH/2)+(x*scale), (WINDOW_HEIGHT/2)+(y*scale));
+		winX = (WINDOW_WIDTH/2) + IFTOI(x*scale);
+		winY = (WINDOW_HEIGHT/2) + IFTOI(y*scale);
+
+		SDL_RenderDrawLine(renderer, oldWinX, oldWinY, winX, winY);
 		SDL_RenderPresent(renderer);
+
+		oldWinX = winX;
+		oldWinY = winY;
 
 		if (SDL_PollEvent(&event) && event.type == SDL_QUIT) {
 			break;
